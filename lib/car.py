@@ -1,4 +1,5 @@
-from machine import Pin, PWM
+from machine import Pin, PWM, I2C
+from mpu6500 import MPU6500, SF_G, SF_DEG_S
 try:
     from time import sleep_ms
 except ImportError:
@@ -17,6 +18,7 @@ class Motor():
         self.reversePin = Pin( pins.Reverse, Pin.OUT )
         self.currentState = self.Stop
         self.SetSpeed(0)
+        
 
     def SetSpeed( self, speed ):
         self.duty = speed
@@ -71,6 +73,11 @@ class Car():
         self.rightMotor = Motor( Pins.Motor.Right )
         self.pins = Pins
 
+        self.i2c = I2C(0, sda=Pin(Pins.I2C.SDA), scl=Pin(Pins.I2C.SCL))
+        emu = MPU6500(self.i2c, accel_sf=SF_G, gyro_sf=SF_DEG_S)
+        emu.calibrate()
+
+
 
     def coast( self ):
         self.leftMotor.Stop()
@@ -84,19 +91,20 @@ class Car():
         self.leftMotor.reverse()
         self.rightMotor.reverse()
 
-    def drejH( self ):
+    def drejH( self, angle=0 ):
+        angle = angle % 360
         self.leftMotor.forward()
         self.rightMotor.Stop()
 
-    def drejV( self ):
+    def drejV( self, angle=0 ):
         self.leftMotor.Stop()
         self.rightMotor.forward()
 
-    def roterH( self ):
+    def roterH( self, angle=0 ):
         self.leftMotor.forward()
         self.rightMotor.reverse()
 
-    def roterV( self ):
+    def roterV( self, angle=0 ):
         self.leftMotor.reverse()
         self.rightMotor.forward()
 
