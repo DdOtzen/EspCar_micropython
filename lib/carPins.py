@@ -9,14 +9,17 @@ except ImportError:
 
 class Pins:
 
+    # noinspection PyClassHasNoInit
     class Motor:
         class Left:
+            # noinspection PyClassHasNoInit
             Forward : const
             Reverse : const
             Speed   : const
             enc_1   : const
             enc_2   : const
         class Right:
+            # noinspection PyClassHasNoInit
             Forward : const
             Reverse : const
             Speed   : const
@@ -41,10 +44,13 @@ class Pins:
     Motor.Right.enc_2   = const(36)
 
     class Light:
+        # noinspection PyClassHasNoInit
         class Front:
+            # noinspection PyClassHasNoInit
             Left  : const
             Right : const
         class Rear:
+            # noinspection PyClassHasNoInit
             Left  : const
             Right : const
         # Dummy attribute to help with simpler typehints.
