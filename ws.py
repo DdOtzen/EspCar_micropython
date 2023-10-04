@@ -49,7 +49,7 @@ while True:
 
         line = cl_file.readline()
 
-        if not line or line =a= b'\r\n':
+        if not line or line == b'\r\n':
 
             break
 
