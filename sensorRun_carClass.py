@@ -1,6 +1,6 @@
 from machine import Pin, ADC, PWM
 from time import sleep_ms, sleep
-from Car import Car
+from lib.car import Car
 
 led = Pin( 2, Pin.OUT )
 sensor = ADC( Pin(34 ) )

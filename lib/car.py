@@ -8,7 +8,7 @@ except ImportError:
 
 from lib.carPins import Pins
 
-class Motor():
+class Motor:
     def __init__( self, pins :Pins.Motor.LR ):
         self.duty = 0
         self.calibration = 1.0
@@ -45,7 +45,7 @@ class Motor():
 
 class Lights:
     class _Light:
-        def __init__( self, pins :Pins.Light.FR ):
+        def __init__( self, pins: Pins.Light.FR ):
             self.Left  = Pin( pins.Left, Pin.OUT )
             self.Right = Pin( pins.Right, Pin.OUT )
 
@@ -63,13 +63,23 @@ class Lights:
         self.Rear  = self._Light( Pins.Light.Rear )
 
 
-class Car():
+class Encoder :
+
+    def __init__( self, pins: Pins.Motor.LR ) :
+        self.encA = Pin( pins.Forward, Pin.IN )
+        self.reversePin = Pin( pins.Reverse, Pin.IN )
+        self.currentState = self.Stop
+        self.SetSpeed( 0 )
+
+
+class Car:
 
     def __init__( self ):
         self.light = Lights()
         self.leftMotor  = Motor( Pins.Motor.Left )
         self.rightMotor = Motor( Pins.Motor.Right )
         self.pins = Pins
+        self.speed = 0
 
 
     def coast( self ):
