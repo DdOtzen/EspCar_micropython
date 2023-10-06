@@ -22,5 +22,7 @@ for _ in range(3):
 
 bil.set_hastighed(30)
 bil.frem()
-#sleep(8)
+sleep(8)
+bil.bak()
+sleep(8)
 bil.coast()
