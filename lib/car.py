@@ -28,14 +28,14 @@ class Motor:
         self.calibration = factor
 
     def forward( self ):
-        self.forwardPin.off()
-        self.reversePin.on()
+        self.forwardPin.on()
+        self.reversePin.off()
         self.PWMPin.duty_u16( self.duty )
         self.currentState = self.forward
 
     def reverse( self ):
-        self.forwardPin.on()
-        self.reversePin.off()
+        self.forwardPin.off()
+        self.reversePin.on()
         self.PWMPin.duty_u16( self.duty )
         self.currentState = self.reverse
 
@@ -85,7 +85,7 @@ class Car:
 
         self.i2c = I2C(0, sda=Pin(Pins.I2C.SDA), scl=Pin(Pins.I2C.SCL))
         self.imu = MPU6500(self.i2c, accel_sf=SF_G, gyro_sf=SF_DEG_S)
-        self.imu.calibrate()
+        self.imu.calibrate()  # Only some kind of offset adjustment
         self.heading = 0;
         
         self.timerPeriod = 10  # milliseconds
@@ -107,17 +107,16 @@ class Car:
 
     def _WaitForTargetHeading( self, angle ):
         if angle != None:
-            targetHeading = self.heading + angle
-            if targetHeading > 3600:
-                targetHeading = targetHeading - 3600
-            elif targetHeading < 0:
-                targetHeading = targetHeading + 3600
+            self.heading = 0
+            actualHeading = self.heading
             done = False
             while done == False:
-                currentHeading = self.heading
-                if currentHeading > targetHeading - 1 and currentHeading < targetHeading + 2:
+                if angle > 0 and actualHeading > angle:
                     done = True
-            self.coast()                        
+                if angle < 0 and actualHeading < angle:
+                    done = True
+                actualHeading = self.heading
+            self.coast()
 
     def drejH( self, angle=None ):
         self.leftMotor.forward()
@@ -157,10 +156,6 @@ class Car:
     def _tick( self, timer ):
         gyro = self.imu.gyro
         self.heading -= gyro[2] * self.timerPeriod / 1000
-        if self.heading < 0:
-            self.heading += 3600
-        elif self.heading > 3600:
-            self.heading -= 3600
         
 
 if __name__ == '__main__':

@@ -31,11 +31,25 @@ for _ in [8]:
         bil.light.Front.Right.off()
         bil.light.Front.Left.off()
 
-    bil.set_hastighed(15)
+    bil.set_hastighed(30)
 
 #     bil.frem()
 #     sleep_ms(2000)
 #     bil.coast()
+
+#     sleep_ms(5000)
+#     bil.coast()
+#     bil.bak()
+#     sleep_ms(5000)
+#     bil.coast()
+
+#     for _ in range(24):
+#         print('roterH')
+#         bil.roterH(180)
+#     for _ in range(24):
+#         print('roterV')
+#         bil.roterV(180)
+
 
     for _ in range(5):
         print('drejH')
@@ -61,18 +75,6 @@ for _ in [8]:
         print('drejV')
         bil.drejV(90)
 
-
-#     print('drejV')
-#     bil.drejV()
-#     sleep_ms(5000)
-# 
-#     print('roterH')
-#     bil.roterH()
-#     sleep_ms(10000)
-# 
-#     print('roterV')
-#     bil.roterV()
-#     sleep_ms(10000)
     
     print('coast')
     bil.coast()
