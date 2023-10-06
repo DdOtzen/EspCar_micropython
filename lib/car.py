@@ -1,7 +1,7 @@
 from machine import Pin, PWM, I2C, Timer
 from mpu6500 import MPU6500, SF_G, SF_DEG_S
 try:
-    from time import sleep_ms
+    from time import sleep_ms, time_ns
 except ImportError:
     from time import sleep
     def sleep_ms( ms ):
@@ -87,6 +87,7 @@ class Car:
         self.imu = MPU6500(self.i2c, accel_sf=SF_G, gyro_sf=SF_DEG_S)
         self.imu.calibrate()  # Only some kind of offset adjustment
         self.heading = 0;
+        self.angularVelocity = 0
         
         self.timerPeriod = 10  # milliseconds
         self.tim1 = Timer(1)
@@ -100,6 +101,43 @@ class Car:
     def frem( self ):
         self.leftMotor.forward()
         self.rightMotor.forward()
+        ref = 90
+        startTime = time_ns()
+        actDuty = self.leftMotor.duty
+        leftDuty = actDuty
+        rightDuty = actDuty
+        while (time_ns() - startTime) < 8_000_000_000:
+            sleep_ms(10)
+#            print("Time: ", time() - startTime, "AV: ", self.angularVelocity, "actDuty: ", actDuty)
+            leftDuty = leftDuty + (ref-self.angularVelocity) * -50
+            if leftDuty < 0:
+                forRight = 0 - leftDuty
+                leftDuty = 0
+            elif leftDuty > 65535:
+                forRight = leftDuty - 65535
+                leftDuty = 65535
+            else:
+                forRight = 0
+                    
+            rightDuty = rightDuty + (ref-self.angularVelocity) * 50
+            if rightDuty < 0:
+                forLeft = 0 - rightDuty
+                rightDuty = 0
+            elif rightDuty > 65535:
+                forLeft = rightDuty - 65535
+                rightDuty = 65535
+            else:
+                forLeft = 0
+
+            leftDuty = leftDuty+forLeft
+            rightDuty = rightDuty+forRight
+
+            leftDuty = max(min(65535, leftDuty), 0)
+            rightDuty = max(min(65535, rightDuty), 0)
+
+            self.leftMotor.PWMPin.duty_u16( int(leftDuty) )
+            self.rightMotor.PWMPin.duty_u16( int(rightDuty) )
+            sleep_ms(40)
 
     def bak( self ):
         self.leftMotor.reverse()
@@ -155,6 +193,7 @@ class Car:
 
     def _tick( self, timer ):
         gyro = self.imu.gyro
+        self.angularVelocity = gyro[2]
         self.heading -= gyro[2] * self.timerPeriod / 1000
         
 
