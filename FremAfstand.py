@@ -1,7 +1,7 @@
 from machine import Pin, I2C
 from time import sleep_ms, sleep
 from lib.car import Car
-import vl53l0x as VL53L0X
+import lib.VL53L0X as VL53L0X
 
 led = Pin(2, Pin.OUT)
 bil = Car()
