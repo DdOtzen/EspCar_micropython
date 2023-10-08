@@ -3,7 +3,7 @@ import time
 from machine import Pin
 from machine import I2C
 #import VL53L0X
-import vl53l0x as VL53L0X
+import lib.VL53L0X as VL53L0X
 
 #i2c = I2C(0)
 #i2c = I2C(0, I2C.MASTER)
