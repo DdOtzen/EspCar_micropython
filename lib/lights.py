@@ -7,11 +7,17 @@ FRONTLIGHT = 200
 BACKLIGHT = 150
 FULLLIGHT = 1023
 
-
+from carPins import Pins
 
 class Lights():
     blinking = 0
     blinkState = 0
+    
+    class _Light:
+        def __init__(self, pins: Pins.Light.FR):
+            self.Left = 22 #Pin( pins.Left, Pin.OUT )
+            self.Right = 23 #Pin( pins.Right, Pin.OUT )
+    
     def __init__( self, pinFR = 18, pinFL = 19, pinRR = 15, pinRL = 4 ):
         self.dutys = [0, 0, 0, 0]
         self.saveDutys = [0, 0, 0, 0]
@@ -20,6 +26,8 @@ class Lights():
         self.lightFL = PWM( Pin( pinFL ), freq=1000, duty=self.dutys[1] )
         self.lightRR = PWM( Pin( pinRR ), freq=1000, duty=self.dutys[2] )
         self.lightRL = PWM( Pin( pinRL ), freq=1000, duty=self.dutys[3] )
+        self.Front = self._Light( Pins.Light.Front )
+        self.Rear = self._Light( Pins.Light.Rear )
         
     def setDutys( self, dutys ):
         self.lightFR.duty( dutys[0] )

@@ -1,34 +1,43 @@
 from machine import Timer
 from machine import Pin
 
-led = Pin(2, Pin.OUT) # enable onboard led as output to drive the LED
-status = 0
 
-taskList = []
+class Schedule:
+    def __init__(self):
+        self.led = Pin(2, Pin.OUT) # enable onboard led as output to drive the LED
+        self.status = 0
+        self.count = 0
+        self.taskList10 = []		# 10 msec tasks
+        self.taskList500 = []		#500 ms tasks
+        
+        self.tim1 = Timer(1)
+        self.tim1.init(period=10, mode=Timer.PERIODIC, callback=self.tick )
+        
+        self.addCb500(self.cb1)
 
-class Scheduler:
-    def __init__(self) -> None:
-        tim1 = Timer(1)
-        tim1.init(period=500, mode=Timer.PERIODIC, callback=tick ) 
+    def addCb10(self, rutine):
+        self.taskList10.append(rutine)
 
+    def addCb500(self, rutine):
+        self.taskList500.append(rutine)
 
     def cb1(self):
-        global status
-        global led
-        if (status == 1):
-            led.off()
-            status = 0
+        if (self.status == 1):
+            self.led.off()
+            self.status = 0
         else:
-            led.on()
-            status = 1
+            self.led.on()
+            self.status = 1
     
     
-def tick(timer):
-    results = [f() for f in taskList]
+    def tick(self, timer):
+        self.results = [f() for f in self.taskList10]
+        self.count += 1
+        if self.count == 50:
+            self.count = 0
+            self.results = [f() for f in self.taskList500]
+            
     
 
-def addCb(rutine):
-    taskList.append(rutine)
 
 
-addCb(cb1)
