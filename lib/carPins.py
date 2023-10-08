@@ -29,16 +29,18 @@ class Pins:
     # Basic Python syntax do allow this to be declared directly in the class defenitions above, but the special
     # micropython 'const' gets confused and can't destuinguish between variables of same name in differen class scopes.
     # Thus, decleration is done here, with the full path to variable in the assigments.
+    Motor.Left.Speed    = const(25)
     Motor.Left.Forward  = const(32)
     Motor.Left.Reverse  = const(33)
-    Motor.Left.Speed    = const(25)
-    Motor.Left.enc_1    = const(35)
-    Motor.Left.enc_2    = const(34)
+    Motor.Left.enc_1   = const(36)
+    Motor.Left.enc_2   = const(39)
+
+    # Right motor has in and enc pins swapped, pcb design forgot the motors is turned 180 deg from each other.
+    Motor.Right.Speed   = const(14)
     Motor.Right.Forward = const(27)
     Motor.Right.Reverse = const(26)
-    Motor.Right.Speed   = const(14)
-    Motor.Right.enc_1   = const(39)
-    Motor.Right.enc_2   = const(36)
+    Motor.Right.enc_1    = const(35)
+    Motor.Right.enc_2    = const(34)
 
     class Light:
         class Front:

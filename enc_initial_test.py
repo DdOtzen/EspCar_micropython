@@ -9,12 +9,12 @@ tim1 = Timer(1)
 bil = Car()
 speed = 0
 
-print(f"CPU speed: {freq()}")
+print(f"CPU power_pct: {freq()}")
 def tick(timer):
     global enc
     #print(f"CPU temp: { (esp32.raw_temperature() - 32) * 0.5555556 } C")
-    #print(f"The filter value: {enc.filter_ns()}")
-    print("enc:", enc.value(), "speed ‰:", speed*10, 3000)
+    #print(f"The filter value: {encoder.filter_ns()}")
+    print("encoder:", enc.value(), "power_pct ‰:", speed*10, 3000)
     
 n = 0
 def irq_handler1(self):
@@ -56,6 +56,7 @@ try:
     
     while True:
         pass
+
 
 finally:
     enc.deinit()  # free the input pins and encoder.
