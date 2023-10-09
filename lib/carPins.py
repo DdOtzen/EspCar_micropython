@@ -57,7 +57,7 @@ class Pins:
     Light.Rear.Left   = const( 15 )
     Light.Rear.Right  = const( 4 )
 
-    class Spi:
+    class I2C:
         SCL = const(22)
         SDA = const(21)
 
