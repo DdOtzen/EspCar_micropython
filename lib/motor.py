@@ -61,7 +61,9 @@ class Motor:
         self.forwardPin.on()
         self.reversePin.on()
 
-    def Coast( self ):
+    def Coast( self ) :
+        self.forwardPin.off()
+        self.reversePin.off()
 
     def deinit( self ):
         self.encoder.deinit()

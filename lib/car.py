@@ -1,4 +1,4 @@
-from machine import Pin, I2C, Timer
+from machine import Pin, I2C
 from schedule import Schedule
 
 from lib.carPins import Pins
@@ -21,7 +21,7 @@ class Car :
         self.i2c = I2C( 0, sda=Pin( Pins.I2C.SDA ), scl=Pin( Pins.I2C.SCL ) )
         self.imu = MPU6500( self.i2c, accel_sf=SF_G, gyro_sf=SF_DEG_S )
         self.imu.calibrate()  # Only some kind of offset adjustment
-        self.heading = 0;
+        self.heading = 0
         self.angularVelocity = 0
 
         # ligeud controller stuff really ugly names

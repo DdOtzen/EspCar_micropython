@@ -17,7 +17,7 @@ def addCb(rutine):
 def cb1():
     global status
     global led
-    if (status == 1):
+    if status == 1 :
         led.off()
         status = 0
     else:

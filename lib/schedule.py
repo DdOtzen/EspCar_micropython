@@ -22,7 +22,7 @@ class Schedule:
         self.taskList500.append(rutine)
 
     def cb1(self):
-        if (self.status == 1):
+        if self.status == 1 :
             self.led.off()
             self.status = 0
         else:
