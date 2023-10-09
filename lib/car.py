@@ -9,12 +9,12 @@ from mpu6500 import MPU6500, SF_G, SF_DEG_S
 
 class Car :
 
-    def __init__( self, useRegulator: bool = True ) :
+    def __init__( self ) :
         self.scheduling = Schedule()
         self.light = Lights()
         self.scheduling.addCb500(self.light.blinkingTick)
-        self.rightMotor = Motor( Pins.Motor.Right, useRegulator )
-        self.leftMotor = Motor( Pins.Motor.Left, useRegulator )
+        self.rightMotor = Motor( Pins.Motor.Right )
+        self.leftMotor = Motor( Pins.Motor.Left )
         self.pins = Pins
         self.speed = 0
 
@@ -30,10 +30,7 @@ class Car :
         self.rightDuty = 0
         
         self.scheduling.addCb10(self._tick)
-
         self.timerPeriod = 10  # milliseconds
-#        self.tim1 = Timer(1)
-#        self.tim1.init(period=self.timerPeriod, mode=Timer.PERIODIC, callback=self._tick )
 
     def coast( self ) :
         self.leftMotor.Coast()
