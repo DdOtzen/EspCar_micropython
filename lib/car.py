@@ -94,6 +94,10 @@ class Car :
     def bak( self ) :
         self.leftMotor.reverse()
         self.rightMotor.reverse()
+        # initialize I-part of controller
+        self.leftDuty = self.leftMotor.duty
+        self.rightDuty = self.rightMotor.duty
+
         self.state = 2
 
     def _WaitForTargetHeading( self, angle ) :
