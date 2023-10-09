@@ -1,7 +1,8 @@
 from machine import Pin, I2C, Timer
+from schedule import Schedule
 
 from lib.carPins import Pins
-from lib.lights import Lights
+from lights import Lights
 from lib.motor import Motor
 from mpu6500 import MPU6500, SF_G, SF_DEG_S
 
@@ -9,9 +10,12 @@ from mpu6500 import MPU6500, SF_G, SF_DEG_S
 class Car :
 
     def __init__( self, useRegulator: bool = True ) :
+        self.scheduling = Schedule()
         self.light = Lights()
+        self.scheduling.addCb500(self.light.blinkingTick)
         self.rightMotor = Motor( Pins.Motor.Right, useRegulator )
         self.leftMotor = Motor( Pins.Motor.Left, useRegulator )
+        self.pins = Pins
         self.speed = 0
 
         self.i2c = I2C( 0, sda=Pin( Pins.I2C.SDA ), scl=Pin( Pins.I2C.SCL ) )
@@ -24,10 +28,12 @@ class Car :
         self.state = 0
         self.leftDuty = 0
         self.rightDuty = 0
+        
+        self.scheduling.addCb10(self._tick)
 
         self.timerPeriod = 10  # milliseconds
-        self.tim1 = Timer( 1 )
-        self.tim1.init( period=self.timerPeriod, mode=Timer.PERIODIC, callback=self._tick )
+#        self.tim1 = Timer(1)
+#        self.tim1.init(period=self.timerPeriod, mode=Timer.PERIODIC, callback=self._tick )
 
     def coast( self ) :
         self.leftMotor.Coast()
@@ -133,7 +139,7 @@ class Car :
         self.leftMotor.deinit()
         self.rightMotor.deinit()
 
-    def _tick( self, timer ) :
+    def _tick( self ):
         gyro = self.imu.gyro
         self.angularVelocity = gyro[2]
 
