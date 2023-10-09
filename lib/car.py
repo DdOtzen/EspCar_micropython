@@ -12,7 +12,6 @@ class Car :
     def __init__( self ) :
         self.scheduling = Schedule()
         self.light = Lights()
-        self.scheduling.addCb500(self.light.blinkingTick)
         self.rightMotor = Motor( Pins.Motor.Right )
         self.leftMotor = Motor( Pins.Motor.Left )
         self.pins = Pins
@@ -31,6 +30,9 @@ class Car :
         
         self.scheduling.addCb10(self._tick)
         self.timerPeriod = 10  # milliseconds
+
+    def EnableBlinkRelay( self ):
+        self.scheduling.addCb500(self.light.blinkingTick)
 
     def coast( self ) :
         self.leftMotor.Coast()

@@ -12,22 +12,31 @@ class Lights :
     blinking = 0
     blinkState = 0
 
-    class _Light :
+    class _LightPair :
 
-        def __init__( self, pins: Pins.Light.FR ) :
-            self.Left = 22  # Pin( pins.Left, Pin.OUT )
-            self.Right = 23  # Pin( pins.Right, Pin.OUT )
+        def __init__( self, light_1: type(PWM), light_2: type(PWM) ) :
+            self.L1 = light_1
+            self.L2 = light_2
 
-    def __init__( self, pinFR=18, pinFL=19, pinRR=15, pinRL=4 ) :
+        def on( self ):
+            self.L1.duty(1023)
+            self.L2.duty(1023)
+        def off( self ):
+            self.L1.duty(0)
+            self.L2.duty(0)
+
+    def __init__( self ) :
         self.dutys = [0, 0, 0, 0]
         self.saveDutys = [0, 0, 0, 0]
         self.calibration = 1.0
-        self.lightFR = PWM( Pin( pinFR ), freq=1000, duty=self.dutys[0] )
-        self.lightFL = PWM( Pin( pinFL ), freq=1000, duty=self.dutys[1] )
-        self.lightRR = PWM( Pin( pinRR ), freq=1000, duty=self.dutys[2] )
-        self.lightRL = PWM( Pin( pinRL ), freq=1000, duty=self.dutys[3] )
-        self.Front = self._Light( Pins.Light.Front )
-        self.Rear = self._Light( Pins.Light.Rear )
+        self.lightFR = PWM( Pins.Light.Front.Right, freq=1000, duty=self.dutys[0] )
+        self.lightFL = PWM( Pins.Light.Front.Left, freq=1000, duty=self.dutys[1] )
+        self.lightRR = PWM( Pins.Light.Rear.Right, freq=1000, duty=self.dutys[2] )
+        self.lightRL = PWM( Pins.Light.Rear.Left, freq=1000, duty=self.dutys[3] )
+        self.frontLights = self._LightPair( self.lightFL, self.lightFR )
+        self.rearLights  = self._LightPair( self.lightRL, self.lightRR )
+        self.leftLights  = self._LightPair( self.lightFL, self.lightRL )
+        self.rightLights = self._LightPair( self.lightFR, self.lightRR )
 
     def setDutys( self, dutys ) :
         self.lightFR.duty( dutys[0] )
