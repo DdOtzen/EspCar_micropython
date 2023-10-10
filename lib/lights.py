@@ -1,4 +1,6 @@
-from machine import Pin, PWM
+from machine import PWM
+from micropython import const
+from time import sleep_ms
 
 # constants
 FRONTLIGHT = 200
@@ -11,6 +13,12 @@ from carPins import Pins
 class Lights :
     blinking = 0
     blinkState = 0
+    OFF = const(0)
+    ON = const(1)
+    RIGHT = const(1)
+    LEFT = const(2)
+    LOW_BEAM = const(1)
+    HIGH_BEAM = const(2)
 
     class _LightPair :
 
@@ -38,6 +46,13 @@ class Lights :
         self.leftLights  = self._LightPair( self.lightFL, self.lightRL )
         self.rightLights = self._LightPair( self.lightFR, self.lightRR )
 
+    def deinit( self ) :
+        for d in range(1023, 0, -102) :
+            self.setDutys( [d, d, d, d] )
+            sleep_ms(100)
+        self.setDutys( [0, 0, 0, 0] )
+
+
     def setDutys( self, dutys ) :
         self.lightFR.duty( dutys[0] )
         self.lightFL.duty( dutys[1] )
@@ -45,36 +60,34 @@ class Lights :
         self.lightRL.duty( dutys[3] )
 
     def Brake( self, level ) :
-        if level == 1 :
+        if level == self.ON :
             self.saveDutys = self.dutys.copy()
             self.dutys[2] = FULLLIGHT
             self.dutys[3] = FULLLIGHT
-        else :
+        else :  # self.OFF
             self.dutys = self.saveDutys.copy()
         self.setDutys( self.dutys )
 
     def setLights( self, level ) :
-        if level == 0 :
+        if level == Lights.OFF :
             self.dutys[0] = 0
             self.dutys[1] = 0
             self.dutys[2] = 0
             self.dutys[3] = 0
-        elif level == 1 :
+        elif level == Lights.LOW_BEAM :
             self.dutys[0] = FRONTLIGHT
             self.dutys[1] = FRONTLIGHT
             self.dutys[2] = BACKLIGHT
             self.dutys[3] = BACKLIGHT
-        else :
+        else : # Lights.HIGH_BEAM
             self.dutys[0] = FULLLIGHT
             self.dutys[1] = FULLLIGHT
             self.dutys[2] = BACKLIGHT
             self.dutys[3] = BACKLIGHT
         self.setDutys( self.dutys )
-        self.lightsOn = 1
 
     def blinkingTick( self ) :
-
-        if self.blinking == 1 :
+        if self.blinking == Lights.RIGHT :
             if self.blinkState == 0 :
                 self.blinkState = 1
                 self.lightFR.duty( FULLLIGHT )
@@ -83,7 +96,7 @@ class Lights :
                 self.blinkState = 0
                 self.lightFR.duty( 0 )
                 self.lightRR.duty( 0 )
-        elif self.blinking == 2 :
+        elif self.blinking == Lights.LEFT :
             if self.blinkState == 0 :
                 self.blinkState = 1
                 self.lightFL.duty( FULLLIGHT )
@@ -95,14 +108,14 @@ class Lights :
         else :
             self.setDutys( self.dutys )
 
-    def setBlink( self, direction ) :  # direction = 0: off, = 1: right, = 2: left
+    def setBlink( self, direction ) :
         self.blinking = direction
         #        if (self.blinking == 0):		# restore old levels
         self.setDutys( self.dutys )
-        if self.blinking == 1 :  # blink right
+        if self.blinking == Lights.RIGHT :  # blink right
             self.lightFR.duty( FULLLIGHT )
             self.lightRR.duty( FULLLIGHT )
-        elif self.blinking == 2 :
+        elif self.blinking == Lights.LEFT :
             self.lightFL.duty( FULLLIGHT )
             self.lightRL.duty( FULLLIGHT )
 

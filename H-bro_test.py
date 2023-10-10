@@ -9,20 +9,20 @@ bil = Car()
 
 # noinspection PyUnusedLocal
 def tick(timer):
-    print("L enc:", bil.leftMotor.encValue(), "R enc:", bil.rightMotor.encValue(), 3000)
+    print("L enc:", bil._leftMotor.encValue(), "R enc:", bil._rightMotor.encValue(), 3000 )
     
 try:
     #tim1.init(freq=1, mode=Timer.PERIODIC, callback=tick )
 
     def foo( du, ff, rr ):
         print("duty:", du/32000, "FF", ff, "RR", rr)
-        bil.leftMotor.PWMPin.duty_u16(65535)
-        bil.leftMotor.forwardPin.value(1)
-        bil.leftMotor.reversePin.value(0)
+        bil._leftMotor.PWMPin.duty_u16( 65535 )
+        bil._leftMotor.forwardPin.value( 1 )
+        bil._leftMotor.reversePin.value( 0 )
         sleep(2)
-        bil.leftMotor.PWMPin.duty_u16(du*65535)
-        bil.leftMotor.forwardPin.value(ff)
-        bil.leftMotor.reversePin.value(rr)
+        bil._leftMotor.PWMPin.duty_u16( du * 65535 )
+        bil._leftMotor.forwardPin.value( ff )
+        bil._leftMotor.reversePin.value( rr )
         sleep(4)
         
     bil.set_hastighed(100)

@@ -10,7 +10,7 @@ speed = 0
 
 # noinspection PyUnusedLocal
 def tick(timer):
-    print("L enc:", bil.leftMotor.encValue(), "R enc:", bil.rightMotor.encValue(), "power_pct ‰:", speed*10, 3000)
+    print("L enc:", bil._leftMotor.encValue(), "R enc:", bil._rightMotor.encValue(), "power_pct ‰:", speed * 10, 3000 )
     
 try:
     tim1.init(freq=1, mode=Timer.PERIODIC, callback=tick )

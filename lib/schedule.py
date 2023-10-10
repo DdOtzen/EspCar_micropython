@@ -14,12 +14,17 @@ class Schedule:
         self.tim1.init(period=10, mode=Timer.PERIODIC, callback=self.tick )
         
         self.addCb500(self.cb1)
+    def deinit( self ):
+        self.tim1.deinit()
+        self.led.off()
 
     def addCb10(self, rutine):
-        self.taskList10.append(rutine)
+        if rutine not in self.taskList10 :
+            self.taskList10.append(rutine)
 
     def addCb500(self, rutine):
-        self.taskList500.append(rutine)
+        if rutine not in self.taskList500 :
+            self.taskList500.append(rutine)
 
     def cb1(self):
         if self.status == 1 :

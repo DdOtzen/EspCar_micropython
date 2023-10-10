@@ -3,6 +3,7 @@ from lib.car import Car
 
 PAUSE_MS = 3_000
 
+
 def PinTest( pause_secs = 1):
     print( "Front" )
     bil.light.frontLights.on()

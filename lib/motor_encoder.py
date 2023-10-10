@@ -22,7 +22,7 @@ class Motor:
         self.SetPower( 0 )
 
     def motor_100ms_tick( self ) -> float:
-        # Calculate current speed (rotations per 100ms or 0.1s)
+        # Calculate current _speed (rotations per 100ms or 0.1s)
         enc_steps_100ms = self._encDeltaValue()
         enc_steps_1s = enc_steps_100ms * 10
         self.current_rps = enc_steps_1s / self.ENCODER_STEPS_PR_ROTATION

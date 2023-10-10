@@ -35,7 +35,7 @@ class Pins:
     Motor.Left.enc_1   = const(36)
     Motor.Left.enc_2   = const(39)
 
-    # Right motor has in and enc pins swapped, pcb design forgot the motors is turned 180 deg from each other.
+    # Right motor has in and enc _pins swapped, pcb design forgot the motors is turned 180 deg from each other.
     Motor.Right.Speed   = const(14)
     Motor.Right.Forward = const(27)
     Motor.Right.Reverse = const(26)
