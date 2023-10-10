@@ -8,6 +8,7 @@ from lib.carPins import Pins
 from lights import Lights
 from lib.motor import Motor
 from mpu6500 import MPU6500, SF_G, SF_DEG_S
+from vl53l0x import VL53L0X
 
 
 class Car :
@@ -19,6 +20,7 @@ class Car :
     def __init__( self ) :
         self._scheduling = Schedule()
 
+        self._i2c = I2C( 0, sda=Pin( Pins.I2C.SDA ), scl=Pin( Pins.I2C.SCL ) )
         # Pulling up the lights interface to the car instance. Can be done more dynamic, but for now we use the brute force method.
         # And at the same time translate to danish TODO: forget this danish interface crap and  go full english [MAO].
         self.light = Lights()  # Old way of access, kept for compatibility.
@@ -41,7 +43,12 @@ class Car :
         self._pins = Pins
         self._speed = 0
 
-        self._i2c = I2C( 0, sda=Pin( Pins.I2C.SDA ), scl=Pin( Pins.I2C.SCL ) )
+        
+        self.tofSensor = VL53L0X(self._i2c)
+        self.tofSensor.start()
+        self._scheduling.addCb100(self._tofTick)
+        self.distance = 0
+        
         self._imu = MPU6500( self._i2c, accel_sf=SF_G, gyro_sf=SF_DEG_S )
         self._imu.calibrate()  # Only some kind of offset adjustment
         self._heading = 0
@@ -52,7 +59,7 @@ class Car :
         self._leftDuty = 0
         self._rightDuty = 0
         
-        self._scheduling.addCb10( self._tick )
+        self._scheduling.addCb10(self._DriveStraightCtrlTick)
         self._timerPeriod = 10  # milliseconds
         self.dbgCount = 0
         # self._scheduling.addCb500( self.Dprint )
@@ -94,9 +101,7 @@ class Car :
         # initialize I-part of controller
         self._leftDuty = self._leftMotor.duty
         self._rightDuty = self._rightMotor.duty
-
         self._state = Car._STATE_FREM
-
 
     def bak( self ) :
         self._leftMotor.reverse()
@@ -104,7 +109,6 @@ class Car :
         # initialize I-part of controller
         self._leftDuty = self._leftMotor.duty
         self._rightDuty = self._rightMotor.duty
-
         self._state = Car._STATE_BAK
 
     def _WaitForTargetHeading( self, angle ) :
@@ -158,8 +162,11 @@ class Car :
 
     def __del__(self):
         self.deinit()
+        
+    def Distance( self ):
+        return self.distance
 
-    def _tick( self ):
+    def _DriveStraightCtrlTick( self ):
         gyro = self._imu.gyro
         self._angularVelocity = gyro[2]
 
@@ -177,6 +184,8 @@ class Car :
 
         self._heading -= gyro[2] * self._timerPeriod / 1000
 
+    def _tofTick( self ):
+        self.distance = self.tofSensor.read()
 
 if __name__ == '__main__' :
     bil = Car()

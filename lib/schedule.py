@@ -8,6 +8,7 @@ class Schedule:
         self.status = 0
         self.count = 0
         self.taskList10 = []		# 10 msec tasks
+        self.taskList100 = []		# 100 msec tasks
         self.taskList500 = []		#500 ms tasks
         
         self.tim1 = Timer(1)
@@ -21,6 +22,9 @@ class Schedule:
     def addCb10(self, rutine):
         if rutine not in self.taskList10 :
             self.taskList10.append(rutine)
+
+    def addCb100(self, rutine):
+        self.taskList100.append(rutine)
 
     def addCb500(self, rutine):
         if rutine not in self.taskList500 :
@@ -38,6 +42,8 @@ class Schedule:
     def tick(self, timer):
         self.results = [f() for f in self.taskList10]
         self.count += 1
+        if self.count % 10 == 0:
+            self.results = [f() for f in self.taskList100]
         if self.count == 50:
             self.count = 0
             self.results = [f() for f in self.taskList500]
