@@ -117,12 +117,19 @@ class Car :
             actualHeading = self._heading
             done = False
             while not done :
+                if -30 < (angle - actualHeading) < 30 :
+                    self._leftMotor.PWMPin.duty_u16( int( 20 * 655 ) )
+                    self._rightMotor.PWMPin.duty_u16( int( 20 * 655 ) )
+                elif -45 < (angle - actualHeading) < 45 :
+                    self._leftMotor.PWMPin.duty_u16( int( 30 * 655 ) )
+                    self._rightMotor.PWMPin.duty_u16( int( 30 * 655 ) )
                 if 0 < angle < actualHeading :
                     done = True
                 if 0 > angle > actualHeading :
                     done = True
                 actualHeading = self._heading
             self.stop()
+            self.set_hastighed( self._speed )
             sleep_ms( 100 )
 
     def drejH( self, angle=None ) :
