@@ -99,17 +99,19 @@ class Car :
         self._leftMotor.forward()
         self._rightMotor.forward()
         # initialize I-part of controller
-        self._leftDuty = self._leftMotor.duty
-        self._rightDuty = self._rightMotor.duty
-        self._state = Car._STATE_FREM
+        if self._state != Car._STATE_FREM :
+            self._leftDuty = self._leftMotor.duty
+            self._rightDuty = self._rightMotor.duty
+            self._state = Car._STATE_FREM
 
     def bak( self ) :
         self._leftMotor.reverse()
         self._rightMotor.reverse()
         # initialize I-part of controller
-        self._leftDuty = self._leftMotor.duty
-        self._rightDuty = self._rightMotor.duty
-        self._state = Car._STATE_BAK
+        if self._state != Car._STATE_BAK :
+            self._leftDuty = self._leftMotor.duty
+            self._rightDuty = self._rightMotor.duty
+            self._state = Car._STATE_BAK
 
     def _WaitForTargetHeading( self, angle ) :
         if angle is not None :
