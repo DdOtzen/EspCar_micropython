@@ -1,0 +1,23 @@
+
+- Lave slides med pregression af lkommandoer.
+
+- vent_indtil koammando
+- Katastrofe blink  (bil.error)
+    - kalde run.py med try/final og bil.error.
+- Hurra blink, blinke fancy for at markere "i mål"
+- Hurtigere blink
+    - optional parameter til at ændre blink frekvens
+
+
+- Lave eksempel programmer der løber banen igennem
+- Nagativ bak
+- Batteri sensor, efter kontakt
+    - Sense batteri niveau
+    - Ændre opførsel, afhængig af kontakt
+        - Auto runner enable/disable
+        - Simulere vinkel drej
+
+- Senspr test
+    - husk kalibrering af afstand.
+        - Tommelstok/målebånd
+        
