@@ -1,4 +1,4 @@
-from time import sleep
+from time import sleep, sleep_ms
 from micropython import const
 from lib.car import Car
 
@@ -21,15 +21,74 @@ def run_the_tests() :
         bil.EnableBlinkRelay()
         #simple_motor_test( step_secs=1 )
         sqspeed = 40
-        square_turn_test( sqspeed, turn_type=_TURN_RIGHT )
-        square_turn_test( sqspeed, turn_type=_TURN_LEFT )
-        square_turn_test( sqspeed, turn_type=_ROTATE_LEFT )
-        square_turn_test( sqspeed, turn_type=_ROTATE_RIGHT )
+        #square_turn_test( sqspeed, turn_type=_TURN_RIGHT )
+        #square_turn_test( sqspeed, turn_type=_TURN_LEFT )
+        #square_turn_test( sqspeed, turn_type=_ROTATE_LEFT )
+        #square_turn_test( sqspeed, turn_type=_ROTATE_RIGHT )
+        afstand_test()
 
     finally :
         print( "Shutting down car" )
         bil.sluk()
 
+afstand = bil.Distance()
+print(afstand)
+def f0():
+    bil.forlygter
+    bil.baglygter
+    bil.venstreLys
+    bil.hoejreLys
+    bil.set_hastighed()
+    bil.frem()
+    bil.stop()
+    bil.bak()
+    bil.drejH()
+    bil.drejV()
+    bil.roterV()
+    bil.roterH()
+def f1():
+    while True:
+        afstand = bil.Distance()
+        print( afstand )
+        sleep_ms(500)
+
+def f2():
+    while True:
+        afstand = bil.Distance()
+        if afstand > 500:
+            print("langt væk")
+        else:
+            print( "Tæt på" )
+        sleep_ms(500)
+
+def f3():
+    bil.EnableBlinkRelay()
+    bil.lys( bil.LANGT_LYS )
+    bil.lys( bil.KORT_LYS )
+    bil.lys( bil.SLUK_LYS )
+
+    bil.bremselys( bil.TAEND_LYS )
+    bil.bremselys( bil.SLUK_LYS )
+
+    bil.blinklys( bil.VENSTRE_BLINK )
+    bil.blinklys( bil.HOEJRE_BLINK )
+    bil.blinklys( bil.SLUK_LYS )
+
+    bil.drejH( 90 )
+    bil.drejV( 90 )
+
+
+def afstand_test( speed=DEFAULT_SPEED ) :
+    bil.set_hastighed( speed )
+    while True:
+        if bil.Distance() < 200 :
+            bil.bak()
+        elif 200 <= bil.Distance() < 300 :
+            bil.stop()
+        elif 300 <= bil.Distance() < 1000 :
+            bil.frem()
+        else:
+            bil.stop()
 
 def square_turn_test( speed=DEFAULT_SPEED, step_secs=DEFAULT_STEP_SEC, repetitions=1, turn_type=_TURN_LEFT ) :
     turn = { _TURN_LEFT    : bil.drejV,
@@ -107,10 +166,10 @@ def ligeudLongTest( speed=DEFAULT_SPEED, step_secs=30 ) :
 
 def lights_pin_pair_test( step_secs=1 ) :
     print( "Front" )
-    bil.light.frontLights.on()
+    bil.forlygter.on()
     sleep( step_secs )
-    bil.light.frontLights.off()
-
+    bil.forlygter.off()
+    bil.venstreLys
     print( "Rear" )
     bil.light.rearLights.on()
     sleep( step_secs )
