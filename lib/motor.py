@@ -24,6 +24,8 @@ class Motor:
     def _SetPower( self, power_pct ):
         if power_pct == 100 :
             self.duty = 65535
+        elif power_pct < 0 or power_pct > 100:
+            self.duty = 0
         else:
             self.duty = power_pct * 655
         self.PWMPin.duty_u16( self.duty )

@@ -22,7 +22,7 @@ class Car:
     light = Lights()  # Old way of access, kept for compatibility.
 
     def __init__(self):
-
+        self.name = "Smarter Car V2"
         self._i2c = I2C(0, sda=Pin(Pins.I2C.SDA), scl=Pin(Pins.I2C.SCL))
         # Pulling up the lights interface to the car instance. Can be done more dynamic, but for now we use the brute force method.
         # And at the same time translate to danish TODO: forget this danish interface crap and  go full english [MAO].
@@ -65,20 +65,22 @@ class Car:
         self.dbgCount = 0
         # self._scheduling.addCb500( self.Dprint )
 
-    @classmethod
-    def deinit(cls):
-        print("deint")
-        cls._leftMotor.deinit()
-        cls._rightMotor.deinit()
-        cls._scheduling.deinit()
-        cls.light.deinit()
+    def deinit(self):
+        print(f"slukker for {self.name}")
+        self._leftMotor.deinit()
+        self._rightMotor.deinit()
+        self._scheduling.deinit()
+        self.light.deinit()
 
     # Alias method of deinit.
     sluk = deinit
 
     @classmethod
     def Emergency_shutdown(cls):
-        print("aareh")
+        """
+        This is created as a class method, to enable emergency shutdown, even when object is not in scope
+        """
+        print("aarrrggghh")
         cls._leftMotor.deinit()
         cls._rightMotor.deinit()
         cls._scheduling.deinit()

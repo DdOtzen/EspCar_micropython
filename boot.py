@@ -5,21 +5,3 @@
 # import webrepl
 # webrepl.start()
 # start_wifi()
-from lib.car import Car
-import time
-
-
-try:
-    import AutoRun
-    print( "Shutting down car" )
-    Car.sluk()
-except ImportError as e:
-    if "'AutoRun'" not in e.value:
-        Car.Emergency_shutdown()
-        raise
-    # else just ignore it
-except KeyboardInterrupt:
-    raise
-except:
-    Car.Emergency_shutdown()
-    raise
