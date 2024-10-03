@@ -130,12 +130,6 @@ class Car:
             actualHeading = self._heading
             done = False
             while not done:
-                if -30 < (angle - actualHeading) < 30:
-                    self._leftMotor.PWMPin.duty_u16(int(20 * 655))
-                    self._rightMotor.PWMPin.duty_u16(int(20 * 655))
-                elif -45 < (angle - actualHeading) < 45:
-                    self._leftMotor.PWMPin.duty_u16(int(30 * 655))
-                    self._rightMotor.PWMPin.duty_u16(int(30 * 655))
                 if 0 < angle < actualHeading:
                     done = True
                 if 0 > angle > actualHeading:
@@ -192,7 +186,7 @@ class Car:
         self._angularVelocity = gyro[2]
 
         ref = 0
-        ki = 500000 / (self._timerPeriod * 1000)
+        ki = 250000 / (self._timerPeriod * 1000)
         if self._state == Car._STATE_BAK:
             ki = -ki
         if self._state == Car._STATE_FREM or self._state == Car._STATE_BAK:
