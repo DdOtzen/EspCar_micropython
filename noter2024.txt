@@ -1,0 +1,25 @@
+- Forbedre load_uPython script
+    - stop hvis et trin fejler
+    - mere stabil ampy
+    - konverter til powershell/python(GUI?)
+    
+- reducere snak i starten
+    - hvordan kan vi gøre det mere differentieret?
+
+- Car interface
+    - Ryde op i interface
+    - Lave test af hele interface
+    - Dansk interface???
+
+- Lave handouts
+    - kommandoer part 1
+    - Kommandoer prt 2
+    - Links/email adresser?
+    
+- Lave undervisnings plan oversigt, til hjælpere.
+
+- Detaljerede bane regler
+    - Må bilen komme ud af banen?
+    - ER Linien en del af feltet.
+    - Hvornår er bilen inde i feltet 1 hjul/alle hjul/hele bil.
+    

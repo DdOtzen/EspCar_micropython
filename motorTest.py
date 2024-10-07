@@ -12,27 +12,6 @@ PAUSE_MS = 1_000
 for _ in [8]:
     sleep(1)
 
-    #blinke
-    for _ in range(3):
-        led.on()
-        sleep_ms(300)
-        led.off()
-
-        bil.light.Front.Right.on()
-        sleep_ms(300)
-        bil.light.Front.Right.off()
-
-        bil.light.Front.Left.on()
-        sleep_ms(300)
-        bil.light.Front.Left.off()
-
-        bil.light.Rear.Left.on()
-        sleep_ms(300)
-        bil.light.Rear.Left.off()
-
-        bil.light.Rear.Right.on()
-        sleep_ms(300)
-        bil.light.Rear.Right.off()
 
     bil.set_hastighed(30)
 
@@ -62,3 +41,5 @@ for _ in [8]:
     
     print('Stop')
     bil.stop()
+
+    ljfsh

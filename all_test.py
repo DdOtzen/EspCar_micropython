@@ -34,13 +34,18 @@ def run_the_tests() :
 afstand = bil.Distance()
 print(afstand)
 def f0():
-    bil.forlygter
-    bil.baglygter
-    bil.venstreLys
-    bil.hoejreLys
+    bil.forlygter.on()
+    bil.forlygter.off()
+    bil.baglygter.on()
+    bil.baglygter.off()
+    bil.venstreLys.on()
+    bil.venstreLys.off()
+    bil.højreLys.on()
+    bil.højreLys.off()
     bil.set_hastighed()
     bil.frem()
     bil.stop()
+    bil.coast()
     bil.bak()
     bil.drejH()
     bil.drejV()
@@ -63,16 +68,16 @@ def f2():
 
 def f3():
     bil.EnableBlinkRelay()
-    bil.lys( bil.LANGT_LYS )
-    bil.lys( bil.KORT_LYS )
-    bil.lys( bil.SLUK_LYS )
+    bil.lys.sluk()
+    bil.lys.kortLys()
+    bil.lys.langLys()
 
-    bil.bremselys( bil.TAEND_LYS )
-    bil.bremselys( bil.SLUK_LYS )
+    bil.bremselys( 1 )
+    bil.bremselys( 0 )
 
-    bil.blinklys( bil.VENSTRE_BLINK )
-    bil.blinklys( bil.HOEJRE_BLINK )
-    bil.blinklys( bil.SLUK_LYS )
+    bil.blinklys( bil.VENSTRE )
+    bil.blinklys( bil.HOEJRE )
+    bil.blinklys( bil.SLUK )
 
     bil.drejH( 90 )
     bil.drejV( 90 )
