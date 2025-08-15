@@ -16,7 +16,6 @@ _ROTATE_RIGHT = const( 3 )
 
 def run_the_tests() :
     try :
-        bil.__init__()
         #lights_pin_pair_test()
         bil.EnableBlinkRelay()
         #simple_motor_test( step_secs=1 )
@@ -25,6 +24,25 @@ def run_the_tests() :
         #square_turn_test( sqspeed, turn_type=_TURN_LEFT )
         #square_turn_test( sqspeed, turn_type=_ROTATE_LEFT )
         #square_turn_test( sqspeed, turn_type=_ROTATE_RIGHT )
+        """
+        for s in range( 0, 101, 10): 
+            bil.set_hastighed( s )
+            bil.bak()
+            sleep(1)
+            bil.stop()
+            bil.frem()
+            sleep(1)
+            bil.stop()
+        """
+        for s in range( 30, 101, 10): 
+            bil.set_hastighed( s )
+            bil.drejH(180)
+            sleep(1)
+            bil.drejH(180)
+            sleep(1)
+            bil.drejH(360)
+            sleep(1)
+                
         afstand_test()
 
     finally :
@@ -34,18 +52,13 @@ def run_the_tests() :
 afstand = bil.Distance()
 print(afstand)
 def f0():
-    bil.forlygter.on()
-    bil.forlygter.off()
-    bil.baglygter.on()
-    bil.baglygter.off()
-    bil.venstreLys.on()
-    bil.venstreLys.off()
-    bil.højreLys.on()
-    bil.højreLys.off()
+    bil.forlygter
+    bil.baglygter
+    bil.venstreLys
+    bil.hoejreLys
     bil.set_hastighed()
     bil.frem()
     bil.stop()
-    bil.coast()
     bil.bak()
     bil.drejH()
     bil.drejV()
@@ -68,16 +81,16 @@ def f2():
 
 def f3():
     bil.EnableBlinkRelay()
-    bil.lys.sluk()
-    bil.lys.kortLys()
-    bil.lys.langLys()
+    bil.lys( bil.LANGT_LYS )
+    bil.lys( bil.KORT_LYS )
+    bil.lys( bil.SLUK_LYS )
 
-    bil.bremselys( 1 )
-    bil.bremselys( 0 )
+    bil.bremselys( bil.TAEND_LYS )
+    bil.bremselys( bil.SLUK_LYS )
 
-    bil.blinklys( bil.VENSTRE )
-    bil.blinklys( bil.HOEJRE )
-    bil.blinklys( bil.SLUK )
+    bil.blinklys( bil.VENSTRE_BLINK )
+    bil.blinklys( bil.HOEJRE_BLINK )
+    bil.blinklys( bil.SLUK_LYS )
 
     bil.drejH( 90 )
     bil.drejV( 90 )
@@ -243,5 +256,5 @@ def simple_motor_test( speed=DEFAULT_SPEED, step_secs=1 ) :
     bil.lys( bil.SLUK_LYS )
 
 
-if __name__ == '__main__' :
-        run_the_tests()
+#if __name__ == '__main__' :
+run_the_tests()
