@@ -12,7 +12,8 @@ _TURN_LEFT = const( 0 )
 _TURN_RIGHT = const( 1 )
 _ROTATE_LEFT = const( 2 )
 _ROTATE_RIGHT = const( 3 )
-
+_RIGHT = const( 4 )
+_LEFT = const( 5 )
 
 def run_the_tests() :
     try :
@@ -108,6 +109,49 @@ def afstand_test( speed=DEFAULT_SPEED ) :
         else:
             bil.stop()
 
+def square_turn_sequence():
+    sqspeed = 40
+    print("Turn right test.")
+    rotate_blink( _RIGHT )
+    square_turn_test( sqspeed, turn_type=_TURN_RIGHT )
+    
+    print("Turn left test.")
+    rotate_blink( _LEFT )
+    square_turn_test( sqspeed, turn_type=_TURN_LEFT )
+    
+    print("Rotate right test.")
+    rotate_blink( _RIGHT )
+    square_turn_test( sqspeed, turn_type=_ROTATE_RIGHT )
+    
+    print("Rotate left test.")
+    rotate_blink( _LEFT )
+    square_turn_test( sqspeed, turn_type=_ROTATE_LEFT )
+    
+    print("Square test finnished.")
+    rotate_blink( _RIGHT )
+
+LEFT = 0
+RIGHT = 1
+def rotate_blink(direction = _LEFT):
+
+    blnk_seq = []
+    if direction == _RIGHT:
+        blink_seq = [bil.forlygter,
+                    bil.højreLys,
+                    bil.baglygter,
+                    bil.venstreLys,]
+    else: # LEFT
+        blink_seq = [bil.forlygter,
+                    bil.venstreLys,
+                    bil.baglygter,
+                    bil.højreLys,]
+
+    for i in range(4):
+        blink_seq[i].on()
+        sleep_ms(300)
+        blink_seq[i].off()
+    
+    
 def square_turn_test( speed=DEFAULT_SPEED, step_secs=DEFAULT_STEP_SEC, repetitions=1, turn_type=_TURN_LEFT ) :
     turn = { _TURN_LEFT    : bil.drejV,
              _TURN_RIGHT   : bil.drejH,
@@ -117,10 +161,10 @@ def square_turn_test( speed=DEFAULT_SPEED, step_secs=DEFAULT_STEP_SEC, repetitio
                  _TURN_RIGHT   : "   Dreje Højre",
                  _ROTATE_LEFT  : "   Roter Venstre",
                  _ROTATE_RIGHT : "   Roter Højre" }
-    if turn_type in [_TURN_LEFT, _ROTATE_LEFT]:
-        blinkDir = bil.VENSTRE_BLINK
-    else:
-        blinkDir = bil.HOEJRE_BLINK
+    #if turn_type in [_TURN_LEFT, _ROTATE_LEFT]:
+    #    blinkDir = bil.VENSTRE_BLINK
+    #else:
+    #    blinkDir = bil.HOEJRE_BLINK
 
     bil.set_hastighed( speed )
     print( turn_str[turn_type] )
@@ -134,9 +178,9 @@ def square_turn_test( speed=DEFAULT_SPEED, step_secs=DEFAULT_STEP_SEC, repetitio
             bil.frem()
             sleep( step_secs )
             print( turn_str[turn_type] )
-            bil.blinklys( blinkDir )
+            #bil.blinklys( blinkDir )
             turn[turn_type]( 90 )
-            bil.blinklys( bil.SLUK_LYS )
+            #bil.blinklys( bil.SLUK_LYS )
 
 
     print( 'Stop' )
@@ -203,6 +247,7 @@ def lights_pin_pair_test( step_secs=1 ) :
     sleep( step_secs )
     bil.light.rightLights.off()
 
+    bil.sluk()
 
 def simple_motor_test( speed=DEFAULT_SPEED, step_secs=1 ) :
     bil.set_hastighed( speed )
@@ -255,6 +300,8 @@ def simple_motor_test( speed=DEFAULT_SPEED, step_secs=1 ) :
     bil.stop()
     bil.lys( bil.SLUK_LYS )
 
+
+square_turn_sequence()
 
 #if __name__ == '__main__' :
 run_the_tests()

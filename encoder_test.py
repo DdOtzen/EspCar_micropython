@@ -20,30 +20,32 @@ while(enc.value() < 2000 ):
     pass
 bil._rightMotor.Stop()
 sleep_ms(100)
-print( enc.value() )
+#print( enc.value() )
 
 bil._rightMotor.reverse()
 while(enc.value() > 0 ):
     pass
 bil._rightMotor.Stop()
-sleep_ms(100)
 print( enc.value() )
+for x in range(20):
+    sleep_ms(10)
+    print( enc.value() )
 
 bil._rightMotor.SetPower(5)
 for x in range(2000):
     val = enc.value()
-    print("  ",val)
+    if x%10 == 0:
+        print("  ",val)
     if val > 0:
-        print("   -")
         bil._rightMotor.reverse()
         sleep_ms(10)
         bil._rightMotor.Stop()
     elif val < 0:
-        print("   +")
         bil._rightMotor.forward()
         sleep_ms(10)
         bil._rightMotor.Stop()
     else:
+        print("  ",val)
         break
 print( enc.value() )
 
