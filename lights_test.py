@@ -79,14 +79,34 @@ def BlinkTest():
     sleep_ms(SIMPLE_PAUSE_MS)
 
 
+def BrakeTest():
+    print("Brake lights - normal rear brightness")
+    bil.lys.kortLys()
+    sleep_ms(SIMPLE_PAUSE_MS)
+
+    print("Brake lights - brighter red")
+    bil.bremselys(bil.lys.ON)
+    sleep_ms(SIMPLE_PAUSE_MS)
+    bil.bremselys(bil.lys.OFF)
+    sleep_ms(SIMPLE_PAUSE_MS)
+
+
 print("Initializing car")
 bil = Car()
 
-print("Pin test")
-PinTest(1)
+try:
+    print("Pin test")
+    PinTest(1)
 
-print("Blink test")
-BlinkTest(1)
+    print("Brake test")
+    BrakeTest()
+
+    print("Blink test")
+    BlinkTest()
+finally:
+    print("Test complete - lights off")
+    bil.blinklys(bil.SLUK)
+    bil.lys.sluk()
 
 #print("Shutting down car")
 #bil.sluk()

@@ -43,19 +43,9 @@ class Pins:
     Motor.Right.enc_2    = const(34)
 
     class Light:
-        class Front:
-            Left  : const
-            Right : const
-        class Rear:
-            Left  : const
-            Right : const
-        # Dummy attribute to help with simpler typehints.
-        FR = Front
+        Data : const
 
-    Light.Front.Left  = const( 18 )
-    Light.Front.Right = const( 19 )
-    Light.Rear.Left   = const( 15 )
-    Light.Rear.Right  = const( 4 )
+    Light.Data = const(19)
 
     class I2C:
         SCL = const(22)
@@ -71,9 +61,6 @@ if __name__ == '__main__':
     print( f'{Pins.Motor.Left.Forward=}' )
     print( f'{Pins.Motor.Left.Reverse=}' )
     print( f'{Pins.Motor.Left.Speed=}' )
-    print( f'{Pins.Light.Front.Right=}' )
-    print( f'{Pins.Light.Front.Left=}' )
-    print( f'{Pins.Light.Rear.Right=}' )
-    print( f'{Pins.Light.Rear.Left=}' )
+    print( f'{Pins.Light.Data=}' )
 
     #pin = Pins()

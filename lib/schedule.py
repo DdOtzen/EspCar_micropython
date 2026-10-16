@@ -10,10 +10,10 @@ class Schedule:
         self.taskList10 = []		# 10 msec tasks
         self.taskList100 = []		# 100 msec tasks
         self.taskList500 = []		#500 ms tasks
-        
+
         self.tim1 = Timer(1)
         self.tim1.init(period=10, mode=Timer.PERIODIC, callback=self.tick )
-        
+
         self.addCb500(self.cb1)
     def deinit( self ):
         self.tim1.deinit()
@@ -24,11 +24,17 @@ class Schedule:
             self.taskList10.append(rutine)
 
     def addCb100(self, rutine):
-        self.taskList100.append(rutine)
+        if rutine not in self.taskList100:
+            self.taskList100.append(rutine)
 
     def addCb500(self, rutine):
         if rutine not in self.taskList500 :
             self.taskList500.append(rutine)
+
+    def clearCallbacks(self):
+        self.taskList10.clear()
+        self.taskList100.clear()
+        self.taskList500.clear()
 
     def cb1(self):
         if self.status == 1 :
@@ -37,8 +43,8 @@ class Schedule:
         else:
             self.led.on()
             self.status = 1
-    
-    
+
+
     def tick(self, timer):
         self.results = [f() for f in self.taskList10]
         self.count += 1
@@ -47,8 +53,8 @@ class Schedule:
         if self.count == 50:
             self.count = 0
             self.results = [f() for f in self.taskList500]
-            
-    
+
+
 
 
 

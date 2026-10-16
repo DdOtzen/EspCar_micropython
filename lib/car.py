@@ -83,12 +83,13 @@ class Car:
         print("aarrrggghh")
         cls._leftMotor.deinit()
         cls._rightMotor.deinit()
-        cls._scheduling.deinit()
+        cls._scheduling.clearCallbacks()
+        cls._scheduling.addCb100(cls.light.blinkingTick)
         cls.light.EmergencyBlink()
 
     def EnableBlinkRelay(self):
         self._scheduling.addCb100(self.light.blinkingTick)
-        
+
     def Dprint(self):
         self.dbgCount += 1
         if self.dbgCount >= 10:
