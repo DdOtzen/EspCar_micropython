@@ -16,12 +16,14 @@ class Pins:
             Speed   : const
             enc_1   : const
             enc_2   : const
+            EncoderId : const
         class Right:
             Forward : const
             Reverse : const
             Speed   : const
             enc_1   : const
             enc_2   : const
+            EncoderId : const
 
         # Dummy attribute to help with simpler typehints.
         LR = Left
@@ -34,6 +36,7 @@ class Pins:
     Motor.Left.Reverse  = const(33)
     Motor.Left.enc_1   = const(36)
     Motor.Left.enc_2   = const(39)
+    Motor.Left.EncoderId = const(0)
 
     # Right motor has in and enc _pins swapped, pcb design forgot the motors is turned 180 deg from each other.
     Motor.Right.Speed   = const(14)
@@ -41,6 +44,7 @@ class Pins:
     Motor.Right.Reverse = const(26)
     Motor.Right.enc_1    = const(35)
     Motor.Right.enc_2    = const(34)
+    Motor.Right.EncoderId = const(1)
 
     class Light:
         class Front:

@@ -16,7 +16,7 @@ class Motor:
         self.useEnc = useRegulator
         self.encPinA = Pin( pins.enc_1, Pin.IN )
         self.encPinB = Pin( pins.enc_2, Pin.IN )
-        self.encoder = Encoder( -1, phase_a=self.encPinA, phase_b=self.encPinB, filter_ns=0, x124=1 )
+        self.encoder = Encoder( pins.EncoderId, phase_a=self.encPinB, phase_b=self.encPinA, filter_ns=0, x124=1 )
         if self.useEnc:
             self.regulator = DCMotorController(self)
         self.SetPower( 0 )
